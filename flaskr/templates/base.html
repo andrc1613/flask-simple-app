@@ -17,8 +17,11 @@
   <header>
     {% block header %}{% endblock %}
   </header>
-  {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
+  {% for message in get_flashed_messages(with_categories=False) %}
+  <!-- auto escape disabled failed -->
+  {% autoescape false %}
+  <div class="flash">{{message|safe}}</div>
+  {% endautoescape %}
   {% endfor %}
   {% block content %}{% endblock %}
 </section>

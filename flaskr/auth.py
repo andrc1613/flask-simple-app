@@ -89,14 +89,15 @@ def login():
         password = request.form["password"]
         db = get_db()
         error = None
+        # SQL injection vuln
         user = db.execute(
-            "SELECT * FROM user WHERE username = ?", (username,)
+            "SELECT * FROM user WHERE username = \'%s\' and password = \'%s\'" % (username,password)
         ).fetchone()
 
-        if user is None:
-            error = "Incorrect username."
-        elif not check_password_hash(user["password"], password):
-            error = "Incorrect password."
+        # if user is None:
+        #     error = "Incorrect username."
+        # elif not check_password_hash(user["password"], password):
+        #     error = "Incorrect password."
 
         if error is None:
             # store the user id in a new session and return to the index

@@ -58,7 +58,8 @@ def get_post(id, check_author=True):
 
 
 @bp.route("/create", methods=("GET", "POST"))
-@login_required
+# broken access control
+# @login_required
 def create():
     """Create a new post for the current user."""
     if request.method == "POST":
@@ -73,9 +74,9 @@ def create():
             flash(error)
         else:
             db = get_db()
+            # SQL injection vuln
             db.execute(
-                "INSERT INTO post (title, body, author_id) VALUES (?, ?, ?)",
-                (title, body, g.user["id"]),
+                "INSERT INTO post (title, body, author_id) VALUES (\'%s\', \'%s\', \'%s\')" % (title, body, g.user["id"])
             )
             db.commit()
             return redirect(url_for("blog.index"))
@@ -84,7 +85,8 @@ def create():
 
 
 @bp.route("/<int:id>/update", methods=("GET", "POST"))
-@login_required
+# broken access control
+# @login_required
 def update(id):
     """Update a post if the current user is the author."""
     post = get_post(id)
@@ -111,7 +113,8 @@ def update(id):
 
 
 @bp.route("/<int:id>/delete", methods=("POST",))
-@login_required
+# broken access control
+# @login_required
 def delete(id):
     """Delete a post.
 
