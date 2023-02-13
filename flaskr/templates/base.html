@@ -1,4 +1,5 @@
 <!doctype html>
+{% autoescape false %}
 <title>{% block title %}{% endblock %} - Flaskr</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <nav>
@@ -18,10 +19,8 @@
     {% block header %}{% endblock %}
   </header>
   {% for message in get_flashed_messages(with_categories=False) %}
-  <!-- auto escape disabled failed -->
-  {% autoescape false %}
   <div class="flash">{{message|safe}}</div>
-  {% endautoescape %}
   {% endfor %}
   {% block content %}{% endblock %}
 </section>
+{% endautoescape %}

@@ -76,8 +76,10 @@ def create():
             db = get_db()
             # SQL injection vuln
             db.execute(
-                "INSERT INTO post (title, body, author_id) VALUES (\'%s\', \'%s\', \'%s\')" % (title, body, g.user["id"])
+                "INSERT INTO post (title, body, author_id) VALUES (?, ?, ?)",
+                (title, body, g.user["id"]),
             )
+
             db.commit()
             return redirect(url_for("blog.index"))
 
