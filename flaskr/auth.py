@@ -96,8 +96,9 @@ def login():
             "SELECT * FROM user WHERE username = \'%s\'" % (username)
         ).fetchone()
 
-        for row in user:
-            print(row)
+        if user is not None:
+            for row in user:
+                print(row)
 
         if user is None:
             error = "Incorrect username."
